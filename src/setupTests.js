@@ -2,21 +2,16 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
-// custom-transformer.js
-'use strict';
+// src/setupTests.js
+import { server } from './mocks/server.js'
+// Establish API mocking before all tests.
+beforeAll(() => server.listen())
 
-const {transform} = require('@babel/core');
-const jestPreset = require('babel-preset-jest');
+// Reset any request handlers that we may add during the tests,
+// so they don't affect other tests.
+afterEach(() => server.resetHandlers())
 
-module.exports = {
-  process(src, filename) {
-    const result = transform(src, {
-      filename,
-      presets: [jestPreset],
-    });
-
-    return result || src;
-  },
-};
+// Clean up after the tests are finished.
+afterAll(() => server.close())
