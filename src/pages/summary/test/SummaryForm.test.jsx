@@ -26,7 +26,7 @@ describe("initial conditions are met", () => {
 });
 
 describe("user flow", () => {
-  test("button is enabled when checkbox is checked", () => {
+  test("button is enabled when checkbox is checked and disabled when unchecked", () => {
     render(<SummaryForm />);
 
     const checkbox = screen.getByRole("checkbox", {
